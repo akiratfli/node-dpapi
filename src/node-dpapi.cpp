@@ -10,25 +10,25 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 
 	if (info.Length() != 3) {
 		isolate->ThrowException(v8::Exception::RangeError(
-			v8::String::NewFromUtf8(isolate, "3 arguments are required").ToLocalChecked()));
+			v8::String::NewFromUtf8(isolate, "3 arguments are required",v8::NewStringType::kNormal).ToLocalChecked()));
 	}
 
 	if (info[0]->IsNullOrUndefined() || !info[0]->IsUint8Array())
 	{
 		isolate->ThrowException(v8::Exception::TypeError(
-			v8::String::NewFromUtf8(isolate, "First argument, data, must be a valid Uint8Array").ToLocalChecked()));
+			v8::String::NewFromUtf8(isolate, "First argument, data, must be a valid Uint8Array",v8::NewStringType::kNormal).ToLocalChecked()));
 	}
 
 	if (!info[1]->IsNull() && !info[1]->IsUint8Array())
 	{
 		isolate->ThrowException(v8::Exception::TypeError(
-			v8::String::NewFromUtf8(isolate, "Second argument, optionalEntropy, must be null or an ArrayBuffer").ToLocalChecked()));
+			v8::String::NewFromUtf8(isolate, "Second argument, optionalEntropy, must be null or an ArrayBuffer",v8::NewStringType::kNormal).ToLocalChecked()));
 	}
 
 	if (info[2]->IsNullOrUndefined() || !info[2]->IsString())
 	{
 		isolate->ThrowException(v8::Exception::TypeError(
-			v8::String::NewFromUtf8(isolate, "Third argument, scope, must be a string").ToLocalChecked()));
+			v8::String::NewFromUtf8(isolate, "Third argument, scope, must be a string",v8::NewStringType::kNormal).ToLocalChecked()));
 	}
 
 	DWORD flags = 0;
@@ -90,7 +90,7 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 	{
 		DWORD errorCode = GetLastError();
 		isolate->ThrowException(v8::Exception::Error(
-			v8::String::NewFromUtf8(isolate, "Decryption failed. TODO: Error code").ToLocalChecked()));
+			v8::String::NewFromUtf8(isolate, "Decryption failed. TODO: Error code",v8::NewStringType::kNormal).ToLocalChecked()));
 
 		return;
 	}
@@ -102,7 +102,7 @@ void ProtectDataCommon(bool protect, Nan::NAN_METHOD_ARGS_TYPE info)
 	info.GetReturnValue().Set(returnBuffer);
 }
 
-// public unsafe static byte[] Protect(byte[] userData, byte[] optionalEntropy, DataProtectionScope scope) 
+// public unsafe static byte[] Protect(byte[] userData, byte[] optionalEntropy, DataProtectionScope scope)
 NAN_METHOD(protectData)
 {
 	ProtectDataCommon(true, info);
